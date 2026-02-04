@@ -10,8 +10,8 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
-st.title("💊 Vitamin+ Svetovalec")
-st.markdown("Dobrodošli! Sem vaš strokovni pomočnik za vitamine in prehranska dopolnila Vitamin+.")
+st.title("VITAMIN+ Svetovalec")
+st.markdown("Dobrodošli! Sem vaš VITAMIN+ svetovalec! Kako vam lahko pomagam?")
 
 # 2. POVEZAVA Z GROQ (Zastonj alternativa)
 try:
@@ -44,3 +44,4 @@ try:
 
 except Exception as e:
     st.error(f"Napaka: {e}")
+
