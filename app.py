@@ -6,7 +6,33 @@ st.set_page_config(page_title="Vitamin+ Pomočnik", page_icon="💊")
 
 st.markdown("""
     <style>
-    .stApp { background-color: #ffffff; }
+    /* 1. Barva celotnega ozadja aplikacije (Nežno roza) */
+    .stApp {
+        background-color: #fff0f5 !important;
+    }
+
+    /* 2. Skrijemo vse Streamlit elemente (meni, noga, glava) */
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
+    header {visibility: hidden;}
+
+    /* 3. Odstranimo belo barvo iz ozadja klepeta in polepšamo mehurčke */
+    [data-testid="stChatMessage"] {
+        background-color: rgba(255, 255, 255, 0.4) !important;
+        border-radius: 15px;
+        margin-bottom: 10px;
+    }
+    
+    /* 4. Popravek za vnosno polje na dnu - da ni belega roba */
+    [data-testid="stChatInput"] {
+        background-color: #ffffff !important;
+        border-radius: 10px;
+    }
+
+    /* 5. Prisila roza barve za stranske dele */
+    .stMain {
+        background-color: #fff0f5 !important;
+    }
     </style>
     """, unsafe_allow_html=True)
 
@@ -44,4 +70,5 @@ try:
 
 except Exception as e:
     st.error(f"Napaka: {e}")
+
 
