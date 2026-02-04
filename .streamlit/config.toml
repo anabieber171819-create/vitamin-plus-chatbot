@@ -2,3 +2,18 @@
 enableCORS = false
 enableXsrfProtection = false
 frameAncestors = ["*"]
+
+[theme]
+# Zlato-rjava barva za gumbe (kot olje v kapsulah)
+primaryColor = "#c5a059"
+
+# Čisto belo ozadje klepeta
+backgroundColor = "#ffffff"
+
+# Zelo svetlo siva za vnosno polje (da se loči od ozadja)
+secondaryBackgroundColor = "#f8f9fa"
+
+# Temno siva barva besedila (bolj berljivo kot črna)
+textColor = "#262730"
+
+font = "sans serif"
