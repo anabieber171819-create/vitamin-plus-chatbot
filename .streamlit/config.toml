@@ -4,16 +4,16 @@ enableXsrfProtection = false
 frameAncestors = ["*"]
 
 [theme]
-# Zlato-rjava barva za gumbe (kot olje v kapsulah)
+# Elegantna zlato-rjava za gumbe
 primaryColor = "#c5a059"
 
-# Čisto belo ozadje klepeta
-backgroundColor = "#ffffff"
+# Nežna pastelno roza barva ozadja klepeta
+backgroundColor = "#fff0f5"
 
-# Zelo svetlo siva za vnosno polje (da se loči od ozadja)
-secondaryBackgroundColor = "#f8f9fa"
+# Malce temnejša roza za vnosno polje, da se loči
+secondaryBackgroundColor = "#ffe4e1"
 
-# Temno siva barva besedila (bolj berljivo kot črna)
-textColor = "#262730"
+# Temno siva barva besedila za boljšo berljivost
+textColor = "#31333F"
 
 font = "sans serif"
