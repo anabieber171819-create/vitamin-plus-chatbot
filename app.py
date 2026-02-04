@@ -14,7 +14,7 @@ st.markdown("""
         border-radius: 15px;
     }
     </style>
-    """, unsafe_allow_index=True)
+    """, unsafe_allow_html=True)
 
 st.title("💊 Vitamin+ Svetovalec")
 st.markdown("Dobrodošli! Sem vaš strokovni pomočnik za vitamine in prehranska dopolnila Vitamin+.")
@@ -70,4 +70,5 @@ if prompt := st.chat_input("Kako vam lahko danes pomagam pri izbiri vitaminov?")
     
     # Shrani odgovor v spomin seje
     st.session_state.messages.append({"role": "assistant", "content": msg})
+
     
