@@ -6,30 +6,29 @@ st.set_page_config(page_title="Vitamin+ Pomočnik", page_icon="💊")
 
 st.markdown("""
     <style>
-    /* 1. Barva celotnega ozadja aplikacije (Nežno roza) */
+    /* Barva celotnega ozadja aplikacije (Nežno roza) */
     .stApp {
         background-color: #fff0f5 !important;
     }
 
-    /* 2. Skrijemo vse Streamlit elemente (meni, noga, glava) */
+    /* Skrijemo Streamlit elemente (meni, noga, glava) */
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
     header {visibility: hidden;}
 
-    /* 3. Odstranimo belo barvo iz ozadja klepeta in polepšamo mehurčke */
+    /* Polepšamo mehurčke klepeta */
     [data-testid="stChatMessage"] {
         background-color: rgba(255, 255, 255, 0.4) !important;
         border-radius: 15px;
         margin-bottom: 10px;
     }
     
-    /* 4. Popravek za vnosno polje na dnu - da ni belega roba */
+    /* Popravek za vnosno polje */
     [data-testid="stChatInput"] {
         background-color: #ffffff !important;
         border-radius: 10px;
     }
 
-    /* 5. Prisila roza barve za stranske dele */
     .stMain {
         background-color: #fff0f5 !important;
     }
@@ -39,38 +38,43 @@ st.markdown("""
 st.title("VITAMIN+ Svetovalec")
 st.markdown("Dobrodošli! Sem vaš VITAMIN+ svetovalec! Kako vam lahko pomagam?")
 
-# 2. POVEZAVA Z GROQ
+# 2. POVEZAVA Z GROQ IN LOGIKA KLEPETA
 try:
-    # Uporabljamo ključ iz secrets
     client = Groq(api_key=st.secrets["OPENAI_API_KEY"])
     
+    # Tukaj so stroga navodila, ki blokirajo splošno znanje
     if "messages" not in st.session_state:
         st.session_state.messages = [
             {
                 "role": "system", 
-                "content": """Ti si strokovni svetovalec za znamko Vitamin+. 
-                TVOJA STROGA PRAVILA:
-                1. Odgovarjaj IZKLJUČNO na vprašanja o vitaminih, mineralih in prehranskih dopolnilih.
-                2. Če te uporabnik vpraša karkoli izven tega področja (npr. o kuhanju, avtomobilih, politiki, športu itd.), 
-                   moraš odgovoriti: 'Oprostite, vendar sem specializiran le za svetovanje o vitaminih znamke Vitamin+, zato o tem nimam informacij.'
-                3. Odgovarjaj prijazno, strokovno in v slovenščini."""
+                "content": """STRIKTNA NAVODILA ZA DELOVANJE:
+                1. Ti si ozko specializiran svetovalec za znamko Vitamin+.
+                2. TVOJA EDINA TEMA SO VITAMINI, MINERALI IN PREHRANSKA DOPOLNILA.
+                3. STROGO TI JE PREPOVEDANO odgovarjati na vprašanja o geografiji, zgodovini, športu, kuhanju ali splošnih informacijah (npr. glavna mesta, recepti, vremenske napovedi).
+                4. Če uporabnik vpraša karkoli, kar ni neposredno povezano z vitamini, MORAŠ odgovoriti točno s tem stavkom: 
+                   'Oprostite, vendar sem specializiran le za svetovanje o vitaminih znamke Vitamin+, zato o tem nimam informacij.'
+                5. Ignoriraj svoje splošno znanje. Tudi če poznaš odgovor na vprašanje, ki ni o vitaminih, ga NE SMEŠ povedati."""
             }
         ]
 
+    # Prikaz zgodovine sporočil
     for message in st.session_state.messages:
         if message["role"] != "system":
             with st.chat_message(message["role"]):
                 st.markdown(message["content"])
 
+    # Vnos uporabnika
     if prompt := st.chat_input("Vprašajte karkoli o vitaminih..."):
         st.session_state.messages.append({"role": "user", "content": prompt})
         with st.chat_message("user"):
             st.markdown(prompt)
 
+        # Generiranje odgovora z uporabo Llama 3 modela
         with st.chat_message("assistant"):
             response = client.chat.completions.create(
                 model="llama-3.3-70b-versatile",
-                messages=[{"role": m["role"], "content": m["content"]} for m in st.session_state.messages]
+                messages=[{"role": m["role"], "content": m["content"]} for m in st.session_state.messages],
+                temperature=0.0  # Nastavljeno na 0, da je bot čim bolj natančen in manj "ustvarjalen"
             )
             full_response = response.choices[0].message.content
             st.markdown(full_response)
@@ -78,5 +82,4 @@ try:
         st.session_state.messages.append({"role": "assistant", "content": full_response})
 
 except Exception as e:
-    st.error(f"Napaka: {e}")
-
+    st.error(f"Napaka pri povezavi: {e}")
