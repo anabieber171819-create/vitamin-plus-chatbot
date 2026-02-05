@@ -39,13 +39,22 @@ st.markdown("""
 st.title("VITAMIN+ Svetovalec")
 st.markdown("Dobrodošli! Sem vaš VITAMIN+ svetovalec! Kako vam lahko pomagam?")
 
-# 2. POVEZAVA Z GROQ (Zastonj alternativa)
+# 2. POVEZAVA Z GROQ
 try:
+    # Uporabljamo ključ iz secrets
     client = Groq(api_key=st.secrets["OPENAI_API_KEY"])
     
     if "messages" not in st.session_state:
         st.session_state.messages = [
-            {"role": "system", "content": "Ti si strokovni svetovalec za vitamine znamke Vitamin+. Odgovarjaj prijazno, strokovno in v slovenščini."}
+            {
+                "role": "system", 
+                "content": """Ti si strokovni svetovalec za znamko Vitamin+. 
+                TVOJA STROGA PRAVILA:
+                1. Odgovarjaj IZKLJUČNO na vprašanja o vitaminih, mineralih in prehranskih dopolnilih.
+                2. Če te uporabnik vpraša karkoli izven tega področja (npr. o kuhanju, avtomobilih, politiki, športu itd.), 
+                   moraš odgovoriti: 'Oprostite, vendar sem specializiran le za svetovanje o vitaminih znamke Vitamin+, zato o tem nimam informacij.'
+                3. Odgovarjaj prijazno, strokovno in v slovenščini."""
+            }
         ]
 
     for message in st.session_state.messages:
@@ -70,5 +79,4 @@ try:
 
 except Exception as e:
     st.error(f"Napaka: {e}")
-
 
